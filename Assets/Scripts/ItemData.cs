@@ -1,7 +1,7 @@
 using UnityEngine;
 
 [System.Serializable]
-public struct ItemData
+public class ItemData
 {
     public Sprite Icon;
     public int Level;

@@ -12,4 +12,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6aaa6a0f665fd9c46a97f8141c6a598d, type: 3}
   m_Name: P2Family
   m_EditorClassIdentifier: 
-  P2FamilyData: []
+  FamilyData:
+  - Icon: {fileID: 21300000, guid: 4cfac6fe3bb01504e96ed9bac5db4330, type: 3}
+    Level: 1
+    ItemType: 0
+    BoardItemFamilyType: 2
+  - Icon: {fileID: 21300000, guid: a589e03b639de7745b25f4840824e3ce, type: 3}
+    Level: 2
+    ItemType: 0
+    BoardItemFamilyType: 2
+  - Icon: {fileID: 21300000, guid: 3fd08c322678ffb439dc815530603da0, type: 3}
+    Level: 3
+    ItemType: 0
+    BoardItemFamilyType: 2
+  - Icon: {fileID: 21300000, guid: 73f20c8b1066f8a44b0664b91fa3d336, type: 3}
+    Level: 4
+    ItemType: 0
+    BoardItemFamilyType: 2
+  - Icon: {fileID: 21300000, guid: 40679dae2e5047b4e8eddc1ba0fbc929, type: 3}
+    Level: 5
+    ItemType: 0
+    BoardItemFamilyType: 2
+  FamilyType: 2

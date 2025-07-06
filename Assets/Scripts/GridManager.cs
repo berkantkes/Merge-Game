@@ -38,4 +38,21 @@ public class GridManager : MonoBehaviour
 
         Debug.Log($"Grid initialized with size: {width}x{height} | Total cells: {gridArray.Length}");
     }
+    
+    public SingleGridController GetGridAt(int x, int y)
+    {
+        if (gridArray == null)
+        {
+            Debug.LogError("Grid array is not initialized.");
+            return null;
+        }
+
+        if (x >= 0 && x < gridArray.GetLength(0) && y >= 0 && y < gridArray.GetLength(1))
+        {
+            return gridArray[x, y];
+        }
+
+        Debug.LogWarning($"Invalid grid position: ({x}, {y})");
+        return null;
+    }
 }

@@ -12,34 +12,45 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 72282958327fa2c4a84004fea408f453, type: 3}
   m_Name: G1Family
   m_EditorClassIdentifier: 
-  G1FamilyData:
+  FamilyData:
   - Icon: {fileID: 21300000, guid: 3c5462ed0a06a5641af51c9760123e41, type: 3}
     Level: 1
     ItemType: 1
+    BoardItemFamilyType: 0
   - Icon: {fileID: 21300000, guid: 1df1905950476b444aad998791c67788, type: 3}
     Level: 2
     ItemType: 1
+    BoardItemFamilyType: 0
   - Icon: {fileID: 21300000, guid: 6520ca321c35cb94cba6c79882b1c612, type: 3}
     Level: 3
     ItemType: 1
+    BoardItemFamilyType: 0
   - Icon: {fileID: 21300000, guid: b46e0f19222a99e46a60d4deb409bf95, type: 3}
     Level: 4
     ItemType: 1
+    BoardItemFamilyType: 0
   - Icon: {fileID: 21300000, guid: 8c1c3fb8bbb8577448e0eabe5e0ff141, type: 3}
     Level: 5
     ItemType: 0
+    BoardItemFamilyType: 0
   - Icon: {fileID: 21300000, guid: 78ad09097a2db074ca920646e878f1e8, type: 3}
     Level: 6
     ItemType: 1
+    BoardItemFamilyType: 0
   - Icon: {fileID: 21300000, guid: 9b11adbb21cdf7146a42f3240832f3e4, type: 3}
     Level: 7
     ItemType: 1
+    BoardItemFamilyType: 0
   - Icon: {fileID: 21300000, guid: 7345791cfb81fcd40bdb5a33c950cabf, type: 3}
     Level: 8
     ItemType: 1
+    BoardItemFamilyType: 0
   - Icon: {fileID: 21300000, guid: e3d87a7fa16097d4d9f0fa3b670487ea, type: 3}
     Level: 9
     ItemType: 1
+    BoardItemFamilyType: 0
   - Icon: {fileID: 21300000, guid: fb541a69f33947c438385708c54fbc65, type: 3}
     Level: 10
     ItemType: 1
+    BoardItemFamilyType: 0
+  FamilyType: 0
