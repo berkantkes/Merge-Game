@@ -7,11 +7,13 @@ public class GameManager : MonoBehaviour
     [SerializeField] private LevelManager _levelManager;
     [SerializeField] private ItemDataHelper _itemDataHelper;
     [SerializeField] private InputManager _inputManager;
+    [SerializeField] private ItemGenerator _itemGenerator;
 
     private void Awake()
     {
         _gridManager.Initialize();
         _levelManager.Initialize(_objectPoolManager, _itemDataHelper, _gridManager);
-        _inputManager.Initialize(_objectPoolManager, _itemDataHelper, _gridManager);
+        _inputManager.Initialize(_objectPoolManager, _itemDataHelper, _gridManager, _itemGenerator);
+        _itemGenerator.Initialize(_gridManager);
     }
 }

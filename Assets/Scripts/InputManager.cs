@@ -11,17 +11,20 @@ public class InputManager : MonoBehaviour
     private ObjectPoolManager _objectPoolManager;
     private ItemDataHelper _itemDataHelper;
     private GridManager _gridManager;
+    private ItemGenerator _itemGenerator;
     private Vector3 _initialPointerPosition;
     
     private const float dragThreshold = 10f;
     private bool _isDraggingStarted = false;
     
-    public void Initialize(ObjectPoolManager objectPoolManager, ItemDataHelper itemDataHelper, GridManager gridManager)
+    public void Initialize(ObjectPoolManager objectPoolManager, ItemDataHelper itemDataHelper, GridManager gridManager,
+        ItemGenerator itemGenerator)
     {
         _mergeStrategy = new MergeStrategy();
         _objectPoolManager = objectPoolManager;
         _itemDataHelper = itemDataHelper;
         _gridManager = gridManager;
+        _itemGenerator = itemGenerator;
     }
     
     private void Update()
@@ -46,7 +49,6 @@ public class InputManager : MonoBehaviour
                 DragSelectedItem();
             }
         }
-
 
         if (Input.GetMouseButtonUp(0) && _selectedItem != null)
         {
@@ -82,7 +84,8 @@ public class InputManager : MonoBehaviour
     {
         if (item.GetItemType() == ItemType.Generator)
         {
-            Debug.Log("Genrator");
+            _itemGenerator.CreateNewItem();
+            _originGrid.PlaceItem(item);
         }
     }
     void HandleDragRelease()
@@ -106,6 +109,8 @@ public class InputManager : MonoBehaviour
                     item.Initialize(targetGrid.GetGridX(), targetGrid.GetGridY(), _selectedItem.GetLevel() + 1,
                         itemData.Icon, itemData.ItemType,
                         itemData.BoardItemFamilyType, _gridManager);
+                    
+                    return;
                 }
                 else
                 {

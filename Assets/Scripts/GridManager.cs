@@ -55,4 +55,16 @@ public class GridManager : MonoBehaviour
         Debug.LogWarning($"Invalid grid position: ({x}, {y})");
         return null;
     }
+    
+    public List<SingleGridController> GetEmptyGrids()
+    {
+        List<SingleGridController> emptyGrids = new List<SingleGridController>();
+        foreach (var grid in _grids)
+        {
+            if (!grid.HasItem())
+                emptyGrids.Add(grid);
+        }
+        return emptyGrids;
+    }
+
 }
