@@ -27,9 +27,29 @@ public class ItemController : MonoBehaviour
         _gridY = y;
 
         _currentGrid = _gridManager.GetGridAt(_gridX, _gridY);
+        _currentGrid.PlaceItem(this);
         
         transform.SetParent(_currentGrid.transform);
         transform.localPosition = Vector3.zero;
+    }
+
+    public SingleGridController GetCurrentGrid()
+    {
+        return _currentGrid;
+    }
+    public int GetLevel()
+    {
+        return _level;
+    }
+
+    public BoardItemFamilyType GetBoardItemFamilyType()
+    {
+        return _boardItemFamilyType;
+    }
+
+    public ItemType GetItemType()
+    {
+        return _itemType;
     }
 
 }
