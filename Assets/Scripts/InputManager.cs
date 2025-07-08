@@ -1,3 +1,4 @@
+using DG.Tweening;
 using UnityEngine;
 
 public class InputManager : MonoBehaviour
@@ -77,8 +78,13 @@ public class InputManager : MonoBehaviour
     void DragSelectedItem()
     {
         Vector3 worldPos = mainCamera.ScreenToWorldPoint(Input.mousePosition);
-        worldPos.z = 0f; 
-        _selectedItem.transform.position = worldPos;
+        worldPos.z = 0f;
+
+        _selectedItem.transform.position = Vector3.Lerp(
+            _selectedItem.transform.position,
+            worldPos,
+            Time.deltaTime * 20f
+        );
     }
     
     void OnItemTapped(ItemController item)
@@ -87,7 +93,7 @@ public class InputManager : MonoBehaviour
         {
             _selectedItem.BackOriginGrid(_originGrid);
             _originGrid.PlaceItem(item);
-            _itemGenerator.CreateNewItem(_originGrid);
+            _itemGenerator.CreateNewItemGenerator(_originGrid);
         }
     }
     void HandleDragRelease()
@@ -106,19 +112,26 @@ public class InputManager : MonoBehaviour
                     _objectPoolManager.Return(_selectedItem);
                     _originGrid.ClearItem();
                     targetGrid.ClearItem();
-                    ItemController item = _objectPoolManager.Get<ItemController>(targetGrid.transform);
-                    ItemData itemData = _itemDataHelper.GetItemData(_selectedItem.GetLevel() + 1, _selectedItem.GetBoardItemFamilyType());
-                    item.Initialize(targetGrid.GetGridX(), targetGrid.GetGridY(), _selectedItem.GetLevel() + 1,
-                        itemData.Icon, itemData.ItemType,
-                        itemData.BoardItemFamilyType, _gridManager);
+                    
+                    ItemData itemData = _itemDataHelper.GetItemData(_selectedItem.GetLevel() + 1,
+                        _selectedItem.GetBoardItemFamilyType());
+                    
+                    ItemController item = _itemGenerator.CreateNewItem(
+                        targetGrid.GetGridX(), 
+                        targetGrid.GetGridY(), 
+                        _selectedItem.GetLevel() + 1,
+                        itemData,
+                        targetGrid.transform);
+                    
+                    item.PlayCreateItemAnimation();
                     
                     return;
                 }
                 else
                 {
                     _originGrid.PlaceItem(targetItem);
-                    targetItem.transform.position = _originGrid.transform.position;
-
+                    targetItem.transform.DOMove(_originGrid.transform.position, .2f);
+                    
                     targetGrid.PlaceItem(_selectedItem);
                     _selectedItem.transform.position = targetGrid.transform.position;
 
@@ -145,22 +158,20 @@ public class InputManager : MonoBehaviour
         {
             HandleDragRelease();
         }
-
         
     }
+    
     void SnapToPointer()
     {
         Vector3 worldPos = mainCamera.ScreenToWorldPoint(Input.mousePosition);
         worldPos.z = 0f;
         _selectedItem.transform.position = worldPos;
     }
-
-
+    
     void ResetState()
     {
         _selectedItem = null;
         _originGrid = null;
         _isDraggingStarted = false;
     }
-
 }

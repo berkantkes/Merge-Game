@@ -18,7 +18,16 @@ public class ItemGenerator : MonoBehaviour
         _itemDataHelper = itemDataHelper;
     }
     
-    public void CreateNewItem(SingleGridController generatorGrid)
+    public ItemController CreateNewItem(int gridX, int gridY, int level, ItemData itemData, Transform parent)
+    {
+        ItemController item = _objectPoolManager.Get<ItemController>(parent);
+
+        item.Initialize(gridX, gridY, level, itemData, _gridManager);
+
+        return item;
+    }
+    
+    public void CreateNewItemGenerator(SingleGridController generatorGrid)
     {
         List<SingleGridController> emptyGrids = _gridManager.GetEmptyGrids();
         if (emptyGrids == null || emptyGrids.Count == 0)
@@ -63,14 +72,12 @@ public class ItemGenerator : MonoBehaviour
             targetGrid.GetGridX(),
             targetGrid.GetGridY(),
             selectedData.GenerateItemLevel,
-            itemData.Icon,
-            itemData.ItemType,
-            itemData.BoardItemFamilyType,
+            itemData,
             _gridManager
         );
 
         targetGrid.PlaceItem(item);
 
-        item.PlayCreateItemAnimation(generatorGrid);
+        item.PlayGenerateItemAnimation(generatorGrid);
     }
 }

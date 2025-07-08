@@ -19,14 +19,13 @@ public class ItemController : MonoBehaviour
     private int _defaultLayerValue = 2;
     private int _selectedLayerValue = 4;
 
-    public void Initialize(int x, int y, int level, Sprite icon, ItemType itemType, BoardItemFamilyType boardItemFamilyType,
-        GridManager gridManager)
+    public void Initialize(int x, int y, int level, ItemData itemData, GridManager gridManager)
     {
         _gridManager = gridManager;
         _level = level;
-        _spriteRenderer.sprite = icon;
-        _itemType = itemType;
-        _boardItemFamilyType = boardItemFamilyType;
+        _spriteRenderer.sprite = itemData.Icon;
+        _itemType = itemData.ItemType;
+        _boardItemFamilyType = itemData.BoardItemFamilyType;
         _gridX = x;
         _gridY = y;
 
@@ -48,10 +47,16 @@ public class ItemController : MonoBehaviour
             }));
     }
 
-    public void PlayCreateItemAnimation(SingleGridController generatorGrid)
+    public void PlayGenerateItemAnimation(SingleGridController generatorGrid)
     {
         transform.position = generatorGrid.transform.position;
         transform.DOLocalMove(Vector3.zero, .2f);
+    }
+
+    public void PlayCreateItemAnimation()
+    {
+        transform.localScale = Vector3.one * 0.6f; 
+        transform.DOScale(1f, 0.3f).SetEase(Ease.OutBack); 
     }
 
     public void SetSelected()

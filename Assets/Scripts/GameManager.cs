@@ -14,7 +14,7 @@ public class GameManager : MonoBehaviour
     private void Awake()
     {
         _gridManager.Initialize();
-        _levelManager.Initialize(_objectPoolManager, _itemDataHelper, _gridManager);
+        _levelManager.Initialize(_objectPoolManager, _itemDataHelper, _gridManager, _itemGenerator);
         _inputManager.Initialize(_objectPoolManager, _itemDataHelper, _gridManager, _itemGenerator);
         _itemGenerator.Initialize(_gridManager, _objectPoolManager, _itemDataHelper);
     }

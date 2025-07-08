@@ -10,11 +10,14 @@ public class LevelManager : MonoBehaviour
     private ObjectPoolManager _objectPoolManager;
     private ItemDataHelper _itemDataHelper;
     private int _initialPoolSize = 10;
+    private ItemGenerator _itemGenerator;
 
     private string SavePath => Application.persistentDataPath + "/saved_level.json";
 
-    public void Initialize(ObjectPoolManager objectPoolManager, ItemDataHelper itemItemDataHelper, GridManager gridManager)
+    public void Initialize(ObjectPoolManager objectPoolManager, ItemDataHelper itemItemDataHelper, GridManager gridManager,
+        ItemGenerator itemGenerator)
     {
+        _itemGenerator = itemGenerator;
         _objectPoolManager = objectPoolManager;
         _itemDataHelper = itemItemDataHelper;
 
@@ -27,22 +30,23 @@ public class LevelManager : MonoBehaviour
             string json = File.ReadAllText(SavePath);
             ItemPlacementDataList dataList = JsonUtility.FromJson<ItemPlacementDataList>(json);
             itemsToLoad = dataList.Items;
-            Debug.Log("Loaded level from saved JSON.");
         }
         else
         {
             itemsToLoad = _levelDataSo.StartingItems;
-            Debug.Log("Loaded level from LevelDataSO.");
         }
 
         foreach (var itemData in itemsToLoad)
         {
-            ItemController item = _objectPoolManager.Get<ItemController>(transform);
-
             ItemData itemInfo = _itemDataHelper.GetItemData(itemData.Level, itemData.BoardItemFamilyType);
-
-            item.Initialize(itemData.GridX, itemData.GridY, itemData.Level, itemInfo.Icon, itemInfo.ItemType,
-                itemInfo.BoardItemFamilyType, gridManager);
+            
+            _itemGenerator.CreateNewItem(
+                itemData.GridX, 
+                itemData.GridY, 
+                itemData.Level,
+                itemInfo,
+                transform
+                );
         }
     }
 
