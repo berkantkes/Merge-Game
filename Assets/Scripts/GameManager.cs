@@ -1,3 +1,5 @@
+using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
@@ -14,6 +16,13 @@ public class GameManager : MonoBehaviour
         _gridManager.Initialize();
         _levelManager.Initialize(_objectPoolManager, _itemDataHelper, _gridManager);
         _inputManager.Initialize(_objectPoolManager, _itemDataHelper, _gridManager, _itemGenerator);
-        _itemGenerator.Initialize(_gridManager);
+        _itemGenerator.Initialize(_gridManager, _objectPoolManager, _itemDataHelper);
     }
+
+    private void OnApplicationQuit()
+    {
+        List<ItemPlacementData> data = _gridManager.GetGridData();
+        _levelManager.SaveCurrentLevel(data);
+    }
+
 }
