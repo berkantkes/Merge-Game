@@ -25,21 +25,28 @@ public class LevelManager : MonoBehaviour
 
         List<ItemPlacementData> itemsToLoad;
 
-        if (File.Exists(SavePath))
-        {
-            string json = File.ReadAllText(SavePath);
-            ItemPlacementDataList dataList = JsonUtility.FromJson<ItemPlacementDataList>(json);
-            itemsToLoad = dataList.Items;
-        }
-        else
-        {
-            itemsToLoad = _levelDataSo.StartingItems;
-        }
+        itemsToLoad = _levelDataSo.StartingItems;
+        // if (File.Exists(SavePath))
+        // {
+        //     string json = File.ReadAllText(SavePath);
+        //     ItemPlacementDataList dataList = JsonUtility.FromJson<ItemPlacementDataList>(json);
+        //     itemsToLoad = dataList.Items;
+        // }
+        // else
+        // {
+        //     itemsToLoad = _levelDataSo.StartingItems;
+        // }
 
         foreach (var itemData in itemsToLoad)
         {
             ItemData itemInfo = _itemDataHelper.GetItemData(itemData.Level, itemData.BoardItemFamilyType);
             
+            Debug.Log("Init3");
+            Debug.Log(_itemGenerator);
+            Debug.Log("Init4");
+            Debug.Log(itemData);
+            Debug.Log(itemInfo);
+            Debug.Log(transform);
             _itemGenerator.CreateNewItem(
                 itemData.GridX, 
                 itemData.GridY, 

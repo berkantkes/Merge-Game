@@ -20,6 +20,8 @@ public class ItemGenerator : MonoBehaviour
     
     public ItemController CreateNewItem(int gridX, int gridY, int level, ItemData itemData, Transform parent)
     {
+        Debug.Log(_objectPoolManager);
+        Debug.Log(parent);
         ItemController item = _objectPoolManager.Get<ItemController>(parent);
 
         item.Initialize(gridX, gridY, level, itemData, _gridManager);
