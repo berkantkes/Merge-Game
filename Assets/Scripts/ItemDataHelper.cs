@@ -19,10 +19,10 @@ public class ItemDataHelper : MonoBehaviour
         {
             for (int level = 1; level <= familySO.FamilyData.Count; level++)
             {
-                var itemData = familySO.GetItemDataByLevel(level);
+                ItemData itemData = familySO.GetItemDataByLevel(level);
                 if (itemData == null) continue;
 
-                var key = (level, familySO.FamilyType);
+                (int level, BoardItemFamilyType FamilyType) key = (level, familySO.FamilyType);
 
                 if (!itemDataLookup.ContainsKey(key))
                     itemDataLookup.Add(key, itemData);
@@ -32,7 +32,7 @@ public class ItemDataHelper : MonoBehaviour
 
     public ItemData GetItemData(int level, BoardItemFamilyType familyType)
     {
-        if (itemDataLookup.TryGetValue((level, familyType), out var itemData))
+        if (itemDataLookup.TryGetValue((level, familyType), out ItemData itemData))
         {
             return itemData;
         }

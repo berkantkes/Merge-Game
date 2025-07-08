@@ -37,26 +37,49 @@ public class ItemController : MonoBehaviour
         _spriteRenderer.sortingOrder = _defaultLayerValue;
     }
 
-    public void BackOriginGrid(SingleGridController gridController)
+    public void GoOriginGrid(SingleGridController gridController)
     {
-        transform.DOMove(gridController.transform.position, .2f)
-            .OnComplete((() =>
+        float distance = Vector3.Distance(transform.position, gridController.transform.position);
+        float speed = 70f;
+        float duration = distance / speed;
+
+        transform.DOMove(gridController.transform.position, duration)
+            .OnComplete(() =>
             {
                 _spriteRenderer.sortingOrder = _defaultLayerValue;
                 _isSelectable = true;
-            }));
+                PlayBumpAnimation();
+            });
+    }
+
+    public void PlayCreateItemAnimation()
+    {
+        PlayBumpAnimation();
     }
 
     public void PlayGenerateItemAnimation(SingleGridController generatorGrid)
     {
         transform.position = generatorGrid.transform.position;
-        transform.DOLocalMove(Vector3.zero, .2f);
+
+        float distance = Vector3.Distance(transform.localPosition, Vector3.zero);
+        float speed = 60f;
+        float duration = distance / speed;
+
+        transform.DOLocalMove(Vector3.zero, duration)
+            .OnComplete((() => PlayBumpAnimation()));
     }
 
-    public void PlayCreateItemAnimation()
+    private void PlayBumpAnimation(float bumpScale = 1.1f, float duration = 0.3f)
     {
-        transform.localScale = Vector3.one * 0.6f; 
-        transform.DOScale(1f, 0.3f).SetEase(Ease.OutBack); 
+        transform.localScale = Vector3.one;
+        transform.DOKill(); 
+
+        Sequence bump = DOTween.Sequence();
+
+        bump.Append(transform.DOScale(Vector3.one * bumpScale, duration * 0.25f).SetEase(Ease.OutQuad));
+        bump.Append(transform.DOScale(Vector3.one * 0.98f, duration * 0.25f).SetEase(Ease.InOutQuad));
+        bump.Append(transform.DOScale(Vector3.one * 1.02f, duration * 0.2f).SetEase(Ease.OutQuad));
+        bump.Append(transform.DOScale(Vector3.one, duration * 0.3f).SetEase(Ease.InQuad));
     }
 
     public void SetSelected()
@@ -68,6 +91,7 @@ public class ItemController : MonoBehaviour
     {
         return _currentGrid;
     }
+    
     public int GetLevel()
     {
         return _level;

@@ -14,7 +14,7 @@ public class ItemSelector : IItemSelector
 
     public (ItemController, SingleGridController) TrySelectItem(Vector3 screenPos)
     {
-        var grid = _raycaster.RaycastToGrid(screenPos);
+        SingleGridController grid = _raycaster.RaycastToGrid(screenPos);
         if (grid != null && grid.HasItem())
             return (grid.GetItem(), grid);
 
@@ -26,7 +26,7 @@ public class ItemSelector : IItemSelector
         if (item.GetItemType() != ItemType.Generator) return;
 
         originGrid.PlaceItem(item);
-        item.BackOriginGrid(originGrid);
+        item.GoOriginGrid(originGrid);
         _itemGenerator.CreateNewItemGenerator(originGrid);
     }
 }

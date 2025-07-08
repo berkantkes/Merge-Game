@@ -13,10 +13,10 @@ public class InputManager : MonoBehaviour
         GridManager gridManager,
         ItemGenerator itemGenerator)
     {
-        var mergeStrategy = new MergeStrategy();
-        var gridRaycaster = new GridRaycaster(mainCamera, gridLayerMask);
-        var itemSelector = new ItemSelector(gridRaycaster, itemGenerator);
-        var itemMergeService = new ItemMergeService(
+        MergeStrategy mergeStrategy = new MergeStrategy();
+        IGridRaycaster gridRaycaster = new GridRaycaster(mainCamera, gridLayerMask);
+        IItemSelector itemSelector = new ItemSelector(gridRaycaster, itemGenerator);
+        IItemMergeService itemMergeService = new ItemMergeService(
             gridRaycaster, mergeStrategy, objectPoolManager, itemDataHelper, gridManager, itemGenerator);
 
         _inputHandler = new ItemDragHandler(mainCamera, itemMergeService, itemSelector);

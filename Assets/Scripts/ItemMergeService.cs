@@ -24,7 +24,7 @@ public class ItemMergeService : IItemMergeService
 
     public void TryMergeOrPlace(ItemController selected, SingleGridController origin, Vector3 pointerScreen)
     {
-        var target = _raycaster.RaycastToGrid(pointerScreen);
+        SingleGridController target = _raycaster.RaycastToGrid(pointerScreen);
         if (target == null)
         {
             CancelMove(selected, origin);
@@ -40,11 +40,11 @@ public class ItemMergeService : IItemMergeService
                 origin.ClearItem();
                 target.ClearItem();
 
-                var data = _dataHelper.GetItemData(
+                ItemData data = _dataHelper.GetItemData(
                     selected.GetLevel() + 1,
                     selected.GetBoardItemFamilyType());
 
-                var newItem = _itemGenerator.CreateNewItem(
+                ItemController newItem = _itemGenerator.CreateNewItem(
                     target.GetGridX(), target.GetGridY(),
                     data.Level, data, target.transform);
 
@@ -54,21 +54,21 @@ public class ItemMergeService : IItemMergeService
             else
             {
                 origin.PlaceItem(target.GetItem());
-                target.GetItem().transform.DOMove(origin.transform.position, 0.2f);
+                target.GetItem().GoOriginGrid(origin);
                 target.PlaceItem(selected);
                 selected.transform.position = target.transform.position;
             }
         }
         else
         {
-            target.PlaceItem(selected);
-            selected.transform.position = target.transform.position;
+            origin.PlaceItem(selected);
+            selected.GoOriginGrid(origin);
         }
     }
 
     private void CancelMove(ItemController selected, SingleGridController origin)
     {
-        selected.BackOriginGrid(origin);
+        selected.GoOriginGrid(origin);
         origin.PlaceItem(selected);
     }
 }
