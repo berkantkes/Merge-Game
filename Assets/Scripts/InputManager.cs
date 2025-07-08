@@ -68,6 +68,7 @@ public class InputManager : MonoBehaviour
             {
                 _originGrid = grid;
                 _selectedItem = grid.GetItem();
+                grid.GetItem().SetSelected();
                 grid.ClearItem();
             }
         }
@@ -84,8 +85,9 @@ public class InputManager : MonoBehaviour
     {
         if (item.GetItemType() == ItemType.Generator)
         {
-            _itemGenerator.CreateNewItem();
+            _selectedItem.BackOriginGrid(_originGrid);
             _originGrid.PlaceItem(item);
+            _itemGenerator.CreateNewItem(_originGrid);
         }
     }
     void HandleDragRelease()
@@ -126,7 +128,7 @@ public class InputManager : MonoBehaviour
             }
         }
 
-        _selectedItem.transform.position = _originGrid.transform.position;
+        _selectedItem.BackOriginGrid(_originGrid);
         _originGrid.PlaceItem(_selectedItem);
         ResetState();
     }

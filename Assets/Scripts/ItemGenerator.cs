@@ -8,18 +8,21 @@ public class ItemGenerator : MonoBehaviour
     [SerializeField] private ItemGeneratorSO _itemGeneratorSo;
     
     private GridManager _gridManager;
+    private ObjectPoolManager _objectPoolManager;
+    private ItemDataHelper _itemDataHelper;
 
-    public void Initialize(GridManager gridManager)
+    public void Initialize(GridManager gridManager, ObjectPoolManager objectPoolManager, ItemDataHelper itemDataHelper)
     {
         _gridManager = gridManager;
+        _objectPoolManager = objectPoolManager;
+        _itemDataHelper = itemDataHelper;
     }
     
-    public void CreateNewItem()
+    public void CreateNewItem(SingleGridController generatorGrid)
     {
         List<SingleGridController> emptyGrids = _gridManager.GetEmptyGrids();
         if (emptyGrids == null || emptyGrids.Count == 0)
         {
-            Debug.LogWarning("No empty grids available.");
             return;
         }
 
@@ -31,7 +34,6 @@ public class ItemGenerator : MonoBehaviour
         
         if (generatorData._GenerateItemsDatas == null || generatorData._GenerateItemsDatas.Count == 0)
         {
-            Debug.LogWarning("No items to generate in SO.");
             return;
         }
 
@@ -51,13 +53,11 @@ public class ItemGenerator : MonoBehaviour
             }
         }
 
-        ItemData itemData = FindObjectOfType<ItemDataHelper>().GetItemData(
-            selectedData.GenerateItemLevel,
+        ItemData itemData = _itemDataHelper.GetItemData(selectedData.GenerateItemLevel,
             selectedData.BoardItemFamilyType
         );
 
-        var poolManager = FindObjectOfType<ObjectPoolManager>();
-        ItemController item = poolManager.Get<ItemController>(targetGrid.transform);
+        ItemController item = _objectPoolManager.Get<ItemController>(targetGrid.transform);
 
         item.Initialize(
             targetGrid.GetGridX(),
@@ -70,5 +70,7 @@ public class ItemGenerator : MonoBehaviour
         );
 
         targetGrid.PlaceItem(item);
+
+        item.PlayCreateItemAnimation(generatorGrid);
     }
 }

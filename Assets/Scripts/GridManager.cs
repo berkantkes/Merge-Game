@@ -28,22 +28,14 @@ public class GridManager : MonoBehaviour
             int x = grid.GetGridX();
             int y = grid.GetGridY();
 
-            if (gridArray[x, y] != null)
-            {
-                Debug.LogWarning($"Duplicate grid at ({x},{y}) detected. It will be overwritten.");
-            }
-
             gridArray[x, y] = grid;
         }
-
-        Debug.Log($"Grid initialized with size: {width}x{height} | Total cells: {gridArray.Length}");
     }
     
     public SingleGridController GetGridAt(int x, int y)
     {
         if (gridArray == null)
         {
-            Debug.LogError("Grid array is not initialized.");
             return null;
         }
 
@@ -52,7 +44,6 @@ public class GridManager : MonoBehaviour
             return gridArray[x, y];
         }
 
-        Debug.LogWarning($"Invalid grid position: ({x}, {y})");
         return null;
     }
     
@@ -67,4 +58,22 @@ public class GridManager : MonoBehaviour
         return emptyGrids;
     }
 
+    public List<ItemPlacementData> GetGridData()
+    {
+        List<ItemPlacementData> itemPlacementDataList = new List<ItemPlacementData>();
+
+        foreach (var grid in _grids)
+        {
+            if (grid.HasItem())
+            {
+                ItemPlacementData itemPlacementData = new ItemPlacementData(grid.GetGridX(), grid.GetGridY(),
+                    grid.GetItem().GetBoardItemFamilyType(), grid.GetItem().GetLevel());
+                itemPlacementDataList.Add(itemPlacementData);
+
+            }
+        }
+
+        return itemPlacementDataList;
+    }
+    
 }

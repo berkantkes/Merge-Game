@@ -14,7 +14,6 @@ public abstract class BaseBoardItemFamilySO : ScriptableObject
             return FamilyData[index];
         }
 
-        Debug.LogWarning($"Invalid level {level} for {FamilyType}");
         return null;
     }
 }

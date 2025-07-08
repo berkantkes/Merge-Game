@@ -12,13 +12,11 @@ public class SingleGridController : MonoBehaviour
 
     public void PlaceItem(ItemController item)
     {
-        Debug.Log("PlaceItem : " + gameObject.name);
         _currentItem = item;
     }
 
     public void ClearItem()
     {
-        Debug.Log("ClearItem : " + gameObject.name);
         _currentItem = null;
     }
 

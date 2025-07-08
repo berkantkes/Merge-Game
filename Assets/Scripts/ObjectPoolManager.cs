@@ -24,7 +24,6 @@ public class ObjectPoolManager : MonoBehaviour
             return (poolObj as ObjectPool<T>).Get(parent);
         }
 
-        Debug.LogError($"No pool exists for type {typeof(T)}. Call CreatePool first.");
         return null;
     }
 
@@ -33,10 +32,6 @@ public class ObjectPoolManager : MonoBehaviour
         if (poolDictionary.TryGetValue(typeof(T), out object poolObj))
         {
             (poolObj as ObjectPool<T>).ReturnToPool(obj);
-        }
-        else
-        {
-            Debug.LogError($"No pool exists for type {typeof(T)}. Cannot return object.");
         }
     }
 }
