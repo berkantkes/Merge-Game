@@ -15,8 +15,14 @@ public class ItemSelector : IItemSelector
     public (ItemController, SingleGridController) TrySelectItem(Vector3 screenPos)
     {
         SingleGridController grid = _raycaster.RaycastToGrid(screenPos);
+        
         if (grid != null && grid.HasItem())
-            return (grid.GetItem(), grid);
+        {
+            if (grid.GetItem().IsSelectable())
+            {
+                return (grid.GetItem(), grid);
+            }
+        }
 
         return (null, null);
     }

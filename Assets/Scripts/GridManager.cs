@@ -55,6 +55,7 @@ public class GridManager : MonoBehaviour
             if (!grid.HasItem())
                 emptyGrids.Add(grid);
         }
+        
         return emptyGrids;
     }
 
@@ -75,5 +76,4 @@ public class GridManager : MonoBehaviour
 
         return itemPlacementDataList;
     }
-    
 }

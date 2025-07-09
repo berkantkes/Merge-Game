@@ -49,7 +49,7 @@ MonoBehaviour:
     Level: 9
     ItemType: 1
     BoardItemFamilyType: 1
-  - Icon: {fileID: 21300000, guid: 9e7a384173c82b642ba8def8f7cf62c3, type: 3}
+  - Icon: {fileID: 21300000, guid: 9be07060b7ae84b4d8360f7e407d757b, type: 3}
     Level: 10
     ItemType: 1
     BoardItemFamilyType: 1

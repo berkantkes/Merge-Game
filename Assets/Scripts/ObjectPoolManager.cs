@@ -21,7 +21,7 @@ public class ObjectPoolManager : MonoBehaviour
     {
         if (poolDictionary.TryGetValue(typeof(T), out object poolObj))
         {
-            return (poolObj as ObjectPool<T>).Get(parent);
+            return (poolObj as ObjectPool<T>)?.Get(parent);
         }
 
         return null;
@@ -31,7 +31,7 @@ public class ObjectPoolManager : MonoBehaviour
     {
         if (poolDictionary.TryGetValue(typeof(T), out object poolObj))
         {
-            (poolObj as ObjectPool<T>).ReturnToPool(obj);
+            (poolObj as ObjectPool<T>)?.ReturnToPool(obj);
         }
     }
 }
