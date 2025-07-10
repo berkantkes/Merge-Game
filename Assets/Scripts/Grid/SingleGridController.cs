@@ -2,8 +2,8 @@ using UnityEngine;
 
 public class SingleGridController : MonoBehaviour
 {
-    [SerializeField] private int gridX;
-    [SerializeField] private int gridY;
+    private int gridX;
+    private int gridY;
     
     private ItemController _currentItem;
 
@@ -27,5 +27,11 @@ public class SingleGridController : MonoBehaviour
     public int GetGridY()
     {
         return gridY;
+    }
+    
+    public void SetGridPosition(int x, int y)
+    {
+        gridX = x;
+        gridY = y;
     }
 }

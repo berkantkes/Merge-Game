@@ -17,19 +17,19 @@ MonoBehaviour:
     GridY: 2
     BoardItemFamilyType: 0
     Level: 1
-  - GridX: 3
-    GridY: 2
-    BoardItemFamilyType: 0
-    Level: 1
   - GridX: 2
     GridY: 3
     BoardItemFamilyType: 0
+    Level: 1
+  - GridX: 3
+    GridY: 2
+    BoardItemFamilyType: 0
     Level: 2
-  - GridX: 1
-    GridY: 3
+  - GridX: 3
+    GridY: 1
     BoardItemFamilyType: 0
     Level: 3
-  - GridX: 1
-    GridY: 4
+  - GridX: 4
+    GridY: 1
     BoardItemFamilyType: 0
     Level: 4
