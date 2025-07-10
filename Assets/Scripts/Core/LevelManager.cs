@@ -24,10 +24,7 @@ public class LevelManager : MonoBehaviour
         _objectPoolManager.CreatePool(_itemController, _initialPoolSize);
         
         List<ItemPlacementData> itemsToLoad;
-        if (File.Exists(SavePath))
-        {
-            File.Delete(SavePath);
-        }
+
         if (File.Exists(SavePath))
         {
             string json = File.ReadAllText(SavePath);
