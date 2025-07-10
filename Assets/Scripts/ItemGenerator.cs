@@ -9,12 +9,15 @@ public class ItemGenerator : MonoBehaviour
     private GridManager _gridManager;
     private ObjectPoolManager _objectPoolManager;
     private ItemDataHelper _itemDataHelper;
+    private UIManager _uiManager;
 
-    public void Initialize(GridManager gridManager, ObjectPoolManager objectPoolManager, ItemDataHelper itemDataHelper)
+    public void Initialize(GridManager gridManager, ObjectPoolManager objectPoolManager, ItemDataHelper itemDataHelper,
+        UIManager uiManager)
     {
         _gridManager = gridManager;
         _objectPoolManager = objectPoolManager;
         _itemDataHelper = itemDataHelper;
+        _uiManager = uiManager;
     }
     
     public ItemController CreateNewItem(int gridX, int gridY, int level, ItemData itemData, Transform parent)
@@ -29,8 +32,10 @@ public class ItemGenerator : MonoBehaviour
     public void CreateNewItemGenerator(SingleGridController generatorGrid)
     {
         List<SingleGridController> emptyGrids = _gridManager.GetEmptyGrids();
+        
         if (emptyGrids == null || emptyGrids.Count == 0)
         {
+            _uiManager.PlayBoardFullTextAnimation();
             return;
         }
 

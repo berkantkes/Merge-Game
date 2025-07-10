@@ -39,4 +39,17 @@ public class ItemDataHelper : MonoBehaviour
 
         return null;
     }
+    
+    public bool HasItemData(int level, BoardItemFamilyType family)
+    {
+        return itemDataLookup.ContainsKey((level, family));
+    }
+    
+    public bool IsMaxLevel(ItemController item)
+    {
+        int nextLevel = item.GetLevel() + 1;
+        BoardItemFamilyType family = item.GetBoardItemFamilyType();
+        return !HasItemData(nextLevel, family);
+    }
+
 }

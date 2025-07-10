@@ -94,7 +94,7 @@ public class ItemController : MonoBehaviour
         sequence.OnComplete(onComplete);
     }
     
-    private void PlayBumpAnimation(float bumpScale = 0.94f, float duration = 0.3f)
+    public void PlayBumpAnimation(float bumpScale = 0.94f, float duration = 0.3f)
     {
         transform.localScale = Vector3.one;
         transform.DOKill(); 

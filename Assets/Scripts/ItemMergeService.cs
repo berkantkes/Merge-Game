@@ -3,16 +3,16 @@ using UnityEngine;
 
 public class ItemMergeService : IItemMergeService
 {
-    private readonly IGridRaycaster _raycaster;
-    private readonly MergeStrategy _mergeStrategy;
-    private readonly ObjectPoolManager _objectPool;
-    private readonly ItemDataHelper _dataHelper;
-    private readonly GridManager _gridManager;
-    private readonly ItemGenerator _itemGenerator;
+    private IGridRaycaster _raycaster;
+    private MergeStrategy _mergeStrategy;
+    private ObjectPoolManager _objectPool;
+    private ItemDataHelper _dataHelper;
+    private GridManager _gridManager;
+    private ItemGenerator _itemGenerator;
+    private UIManager _uiManager;
 
-    public ItemMergeService(IGridRaycaster raycaster, MergeStrategy mergeStrategy,
-        ObjectPoolManager pool, ItemDataHelper dataHelper,
-        GridManager gridManager, ItemGenerator generator)
+    public ItemMergeService(IGridRaycaster raycaster, MergeStrategy mergeStrategy, ObjectPoolManager pool, 
+        ItemDataHelper dataHelper, GridManager gridManager, ItemGenerator generator, UIManager uiManager)
     {
         _raycaster = raycaster;
         _mergeStrategy = mergeStrategy;
@@ -20,6 +20,7 @@ public class ItemMergeService : IItemMergeService
         _dataHelper = dataHelper;
         _gridManager = gridManager;
         _itemGenerator = generator;
+        _uiManager = uiManager;
     }
 
     public void TryMergeOrPlace(ItemController selected, SingleGridController origin, Vector3 pointerScreen)
@@ -35,14 +36,22 @@ public class ItemMergeService : IItemMergeService
         {
             if (_mergeStrategy.CheckMerge(selected, target))
             {
+                int nextLevel = selected.GetLevel() + 1;
+                BoardItemFamilyType family = selected.GetBoardItemFamilyType();
+
+                if (!_dataHelper.HasItemData(nextLevel, family))
+                {
+                    ChangeItems(selected, origin, target);
+                    _uiManager.PlayCantMergeTextAnimation();
+                    return;
+                }
+
                 _objectPool.Return(target.GetItem());
                 _objectPool.Return(selected);
                 origin.ClearItem();
                 target.ClearItem();
 
-                ItemData data = _dataHelper.GetItemData(
-                    selected.GetLevel() + 1,
-                    selected.GetBoardItemFamilyType());
+                ItemData data = _dataHelper.GetItemData(nextLevel, family);
 
                 ItemController newItem = _itemGenerator.CreateNewItem(
                     target.GetGridX(), target.GetGridY(),
@@ -51,12 +60,10 @@ public class ItemMergeService : IItemMergeService
                 newItem.PlayCreateItemAnimation();
                 target.PlaceItem(newItem);
             }
+
             else
             {
-                origin.PlaceItem(target.GetItem());
-                target.GetItem().GoOriginGrid(origin);
-                target.PlaceItem(selected);
-                selected.transform.position = target.transform.position;
+                ChangeItems(selected, origin, target);
             }
         }
         else
@@ -64,6 +71,15 @@ public class ItemMergeService : IItemMergeService
             origin.PlaceItem(selected);
             selected.GoOriginGrid(origin);
         }
+    }
+
+    private void ChangeItems(ItemController selected, SingleGridController origin, SingleGridController target)
+    {
+        origin.PlaceItem(target.GetItem());
+        target.GetItem().GoOriginGrid(origin);
+        target.PlaceItem(selected);
+        selected.transform.position = target.transform.position;
+        selected.PlayBumpAnimation();
     }
 
     private void CancelMove(ItemController selected, SingleGridController origin)

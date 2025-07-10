@@ -7,17 +7,14 @@ public class InputManager : MonoBehaviour
 
     private IInputHandler _inputHandler;
 
-    public void Initialize(
-        ObjectPoolManager objectPoolManager,
-        ItemDataHelper itemDataHelper,
-        GridManager gridManager,
-        ItemGenerator itemGenerator)
+    public void Initialize(ObjectPoolManager objectPoolManager, ItemDataHelper itemDataHelper, GridManager gridManager,
+        ItemGenerator itemGenerator, UIManager uiManager)
     {
         MergeStrategy mergeStrategy = new MergeStrategy();
         IGridRaycaster gridRaycaster = new GridRaycaster(mainCamera, gridLayerMask);
         IItemSelector itemSelector = new ItemSelector(gridRaycaster, itemGenerator);
-        IItemMergeService itemMergeService = new ItemMergeService(
-            gridRaycaster, mergeStrategy, objectPoolManager, itemDataHelper, gridManager, itemGenerator);
+        IItemMergeService itemMergeService = new ItemMergeService(gridRaycaster, mergeStrategy, objectPoolManager, 
+            itemDataHelper, gridManager, itemGenerator, uiManager);
 
         _inputHandler = new ItemDragHandler(mainCamera, itemMergeService, itemSelector);
     }

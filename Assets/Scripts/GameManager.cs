@@ -10,13 +10,14 @@ public class GameManager : MonoBehaviour
     [SerializeField] private ItemDataHelper _itemDataHelper;
     [SerializeField] private InputManager _inputManager;
     [SerializeField] private ItemGenerator _itemGenerator;
+    [SerializeField] private UIManager _uiManager;
 
     private void Awake()
     {
         _gridManager.Initialize();
-        _itemGenerator.Initialize(_gridManager, _objectPoolManager, _itemDataHelper);
+        _itemGenerator.Initialize(_gridManager, _objectPoolManager, _itemDataHelper, _uiManager);
         _levelManager.Initialize(_objectPoolManager, _itemDataHelper, _gridManager, _itemGenerator);
-        _inputManager.Initialize(_objectPoolManager, _itemDataHelper, _gridManager, _itemGenerator);
+        _inputManager.Initialize(_objectPoolManager, _itemDataHelper, _gridManager, _itemGenerator, _uiManager);
     }
 
     private void OnApplicationQuit()
